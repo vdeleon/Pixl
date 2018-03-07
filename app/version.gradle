@@ -1,0 +1,57 @@
+ext {
+    versionMajor = 1
+    versionMinor = 0
+    versionPatch = 0
+    versionClassifier = null
+    isSnapshot = true
+    minimumSdkVersion = 16
+
+    generateVersionName = this.&generateVersionName
+    generateVersionCode = this.&generateVersionCode
+    updatePatch = this.&incrementPatch
+    updateMinor = this.&incrementMinor
+    updateMajor = this.&incrementMajor
+
+    snapshot = this.&enableSnapShot()
+    normal = this.&disableSnapshot()
+}
+
+protected Integer generateVersionCode(){
+    return minimumSdkVersion * 10000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
+}
+
+protected String generateVersionName(){
+    String versionName = "$versionMajor.$versionMinor.$versionPatch"
+    if (versionClassifier == null){
+        if (isSnapshot){
+            versionClassifier = "SNAPSHOT"
+        }
+    }
+
+    if (versionClassifier != null){
+        versionName += "-" + versionClassifier
+    }
+
+    return versionName
+}
+
+protected void incrementPatch(){
+    versionPatch += 1
+}
+
+protected void incrementMinor(){
+    versionMinor += 1
+}
+
+protected void incrementMajor(){
+    versionMajor += 1
+}
+
+protected void disableSnapshot(){
+    isSnapshot = false
+}
+
+protected void enableSnapShot(){
+    isSnapshot = true
+}
+
